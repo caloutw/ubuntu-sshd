@@ -18,6 +18,7 @@ else
     useradd -ms /bin/bash "$SSH_USERNAME"
     echo "$SSH_USERNAME:$SSH_PASSWORD" | chpasswd
     echo "User $SSH_USERNAME created with the provided password"
+    mkdir -p /home/"$SSH_USERNAME"/workspace
 fi
 
 # Set the authorized keys from the AUTHORIZED_KEYS environment variable (if provided)
