@@ -20,6 +20,7 @@ else
     echo "User $SSH_USERNAME created with the provided password"
     mkdir -p /home/"$SSH_USERNAME"/workspace
     chown -R $SSH_USERNAME:$SSH_USERNAME /home/$SSH_USERNAME/workspace
+    usermod -d /home/$SSH_USERNAME/workspace $SSH_USERNAME
 fi
 
 # Set the authorized keys from the AUTHORIZED_KEYS environment variable (if provided)
