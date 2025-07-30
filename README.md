@@ -1,73 +1,77 @@
+# 注意
+原分支來自 [aoudiamoncef/ubuntu-sshd](https://github.com/aoudiamoncef/ubuntu-sshd)
+
+# ubuntu-sshd
+
 [![Docker Image CI](https://github.com/aoudiamoncef/ubuntu-sshd/actions/workflows/ci.yml/badge.svg)](https://github.com/aoudiamoncef/ubuntu-sshd/actions/workflows/ci.yml)
 [![Docker Image Deployment](https://github.com/aoudiamoncef/ubuntu-sshd/actions/workflows/cd.yml/badge.svg)](https://github.com/aoudiamoncef/ubuntu-sshd/actions/workflows/cd.yml)
 [![Docker Pulls](https://img.shields.io/docker/pulls/aoudiamoncef/ubuntu-sshd.svg)](https://hub.docker.com/r/aoudiamoncef/ubuntu-sshd)
 [![Maintenance](https://img.shields.io/badge/Maintained-Yes-green.svg)](https://github.com/aoudiamoncef/ubuntu-sshd)
 
-This Docker image provides an Ubuntu 24.04 base with SSH server enabled. It allows you to easily create SSH-accessible containers via SSH keys or with a default username and password.
+這個 Docker 映像提供 Ubuntu 24.04 基礎環境並啟用了 SSH 伺服器。
+它允許你輕鬆建立可透過 SSH 金鑰或預設使用者名稱與密碼登入的容器。
 
-## Usage
+## 使用方式
 
-### Cloning the Repository
+### 複製（Clone）此專案
 
-To get started, clone the GitHub [repository](https://github.com/aoudiamoncef/ubuntu-sshd) containing the Dockerfile and
-scripts:
+首先複製包含 Dockerfile 和相關腳本的 GitHub [專案](https://github.com/aoudiamoncef/ubuntu-sshd)：
 
 ```bash
 git clone https://github.com/aoudiamoncef/ubuntu-sshd
 cd ubuntu-sshd
 ```
 
-### Building the Docker Image
+### 建置 Docker 映像
 
-Build the Docker image from within the cloned repository directory:
+在複製下來的資料夾中執行以下指令來建置 Docker 映像：
 
 ```bash
 docker build -t my-ubuntu-sshd:latest .
 ```
 
-### Running a Container
+### 啟動容器
 
-To run a container based on the image, use the following command:
+使用以下指令啟動基於此映像的容器：
 
 ```bash
 docker run -d \
-  -p host-port:22 \
+  -p 主機埠號:22 \
   -e SSH_USERNAME=myuser \
   -e SSH_PASSWORD=mysecretpassword \
+  -e SUDO_PASSWORD=mysecretpassword \
   -e AUTHORIZED_KEYS="$(cat path/to/authorized_keys_file)" \
-  -e SSHD_CONFIG_ADDITIONAL="your_additional_config" \
+  -e SSHD_CONFIG_ADDITIONAL="你的額外設定" \
   -e SSHD_CONFIG_FILE="/path/to/your/sshd_config_file" \
   my-ubuntu-sshd:latest
 ```
 
-- `-d` runs the container in detached mode.
-- `-p host-port:22` maps a host port to port 22 in the container. Replace `host-port` with your desired port.
-- `-e SSH_USERNAME=myuser` sets the SSH username in the container. Replace `myuser` with your desired username.
-- `-e SSH_PASSWORD=mysecretpassword` sets the SSH user's password in the container. **This environment variable is
-  required**. Replace `mysecretpassword` with your desired password.
-- `-e AUTHORIZED_KEYS="$(cat path/to/authorized_keys_file)"` sets authorized SSH keys in the container. Replace `path/to/authorized_keys_file` with the path to your authorized_keys file.
-- `-e SSHD_CONFIG_ADDITIONAL="your_additional_config"` allows you to pass additional SSHD configuration. Replace
-  `your_additional_config` with your desired configuration.
-- `-e SSHD_CONFIG_FILE="/path/to/your/sshd_config_file"` allows you to specify a file containing additional SSHD
-  configuration. Replace `/path/to/your/sshd_config_file` with the path to your configuration file.
-- `my-ubuntu-sshd:latest` should be replaced with your Docker image's name and tag.
+* `-d`：以背景模式（detach）執行容器。
+* `-p 主機埠號:22`：將主機的指定埠號對應到容器的 22 埠（SSH 預設埠）。請將 `主機埠號` 替換成你想使用的埠號。
+* `-e SSH_USERNAME=myuser`：設定容器內的 SSH 使用者名稱，將 `myuser` 換成你想用的帳號。
+* `-e SSH_PASSWORD=mysecretpassword`：設定該使用者的密碼。**此環境變數為必填**，將 `mysecretpassword` 替換為你的密碼。
+* `-e SUDO_PASSWORD=mysecretpassword`：設定ROOT的密碼。**此環境變數為必填**，將 `mysecretpassword` 替換為你的密碼。
+* `-e AUTHORIZED_KEYS="$(cat path/to/authorized_keys_file)"`：設定授權的 SSH 公鑰，將 `path/to/authorized_keys_file` 替換成你的 authorized\_keys 檔案路徑。
+* `-e SSHD_CONFIG_ADDITIONAL="你的額外設定"`：允許你傳入額外的 SSHD 設定內容，替換成你需要的設定字串。
+* `-e SSHD_CONFIG_FILE="/path/to/your/sshd_config_file"`：指定包含額外 SSHD 設定的檔案路徑。
+* `my-ubuntu-sshd:latest`：替換成你建置的 Docker 映像名稱和標籤。
 
-### SSH Access
+### 透過 SSH 連線
 
-Once the container is running, you can SSH into it using the following command:
+容器啟動後，可用以下指令 SSH 連線：
 
 ```bash
-ssh -p host-port myuser@localhost
+ssh -p 主機埠號 myuser@localhost
 ```
 
-- `host-port` should match the port you specified when running the container.
-- Use the provided password or SSH key for authentication, depending on your configuration.
+* `主機埠號` 要和你執行容器時設定的埠號一致。
+* 使用設定的密碼或 SSH 金鑰進行驗證，視你的設定而定。
 
-### Note
+### 注意事項
 
-- If the `AUTHORIZED_KEYS` environment variable is empty when starting the container, it will still launch the SSH server, but no authorized keys will be configured. You have to mount your own authorized keys file or manually configure the keys in the container.
-- If `AUTHORIZED_KEYS` is provided, password authentication will be disabled for enhanced security.
+* 若啟動時 `AUTHORIZED_KEYS` 環境變數為空，容器仍會啟動 SSH 伺服器，但不會配置任何授權金鑰。此時你需要自行掛載 authorized\_keys 檔案或在容器內手動設定。
+* 當提供 `AUTHORIZED_KEYS` 時，為提升安全性，密碼驗證將會被停用。
 
-## License
+## 授權條款
 
-This Docker image is provided under the [MIT License](LICENSE).
+本 Docker 映像依據 [MIT 授權條款](LICENSE) 提供。
