@@ -5,6 +5,12 @@
 : ${SSH_PASSWORD:?"Error: SSH_PASSWORD environment variable is not set."}
 : ${SSHD_CONFIG_ADDITIONAL:=""}
 
+# Set root password if ROOT_PASSWORD env variable is provided
+if [ -n "$ROOT_PASSWORD" ]; then
+    echo "root:$ROOT_PASSWORD" | chpasswd
+    echo "Root password set."
+fi
+
 # Create the user with the provided username and set the password
 if id "$SSH_USERNAME" &>/dev/null; then
     echo "User $SSH_USERNAME already exists"
