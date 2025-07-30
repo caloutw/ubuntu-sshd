@@ -15,7 +15,7 @@ fi
 if id "$SSH_USERNAME" &>/dev/null; then
     echo "User $SSH_USERNAME already exists"
 else
-    useradd -ms /bin/bash "$SSH_USERNAME"
+    useradd -m -s /bin/bash -G sudo "$SSH_USERNAME"
     echo "$SSH_USERNAME:$SSH_PASSWORD" | chpasswd
     echo "User $SSH_USERNAME created with the provided password"
     mkdir -p /home/"$SSH_USERNAME"/workspace
