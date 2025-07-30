@@ -1,6 +1,10 @@
 # 注意
 原分支來自 [aoudiamoncef/ubuntu-sshd](https://github.com/aoudiamoncef/ubuntu-sshd)
 
+此項目專門為了 Visual Studio Code SSH 所生
+
+直接內建包含 Workspace 資料夾
+
 # ubuntu-sshd
 
 [![Docker Image CI](https://github.com/aoudiamoncef/ubuntu-sshd/actions/workflows/ci.yml/badge.svg)](https://github.com/aoudiamoncef/ubuntu-sshd/actions/workflows/ci.yml)
