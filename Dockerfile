@@ -18,7 +18,8 @@ RUN apt-get update \
     && mkdir -p /home/"$SSH_USERNAME"/.ssh \
     && chown "$SSH_USERNAME":"$SSH_USERNAME" /home/"$SSH_USERNAME"/.ssh \
     && echo "PasswordAuthentication yes" >> /etc/ssh/sshd_config \
-    && echo "PermitRootLogin yes" >> /etc/ssh/sshd_config  # 允許 root 登入
+    && echo "PermitRootLogin yes" >> /etc/ssh/sshd_config \
+    && mkdir -p /home/"$SSH_USERNAME"/workspace
 
 COPY configure-ssh-user.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/configure-ssh-user.sh
