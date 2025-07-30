@@ -22,7 +22,7 @@
 首先複製包含 Dockerfile 和相關腳本的 GitHub [專案](https://github.com/aoudiamoncef/ubuntu-sshd)：
 
 ```bash
-git clone https://github.com/aoudiamoncef/ubuntu-sshd
+git clone https://github.com/caloytw/ubuntu-sshd
 cd ubuntu-sshd
 ```
 
