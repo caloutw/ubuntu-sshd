@@ -4,7 +4,6 @@ FROM ubuntu:24.04
 ENV DEBIAN_FRONTEND=noninteractive
 ENV SSH_USERNAME="ubuntu"
 ENV SSHD_CONFIG_ADDITIONAL=""
-ENV ROOT_PASSWORD=""
 
 RUN apt-get update \
     && apt-get install -y iproute2 iputils-ping openssh-server telnet sudo \
@@ -16,11 +15,14 @@ RUN apt-get update \
     && chown -R "$SSH_USERNAME":"$SSH_USERNAME" /home/"$SSH_USERNAME" \
     && chmod 755 /home/"$SSH_USERNAME" \
     && mkdir -p /home/"$SSH_USERNAME"/.ssh \
+    && mkdir -p /home/"$SSH_USERNAME"/.init \
     && chown "$SSH_USERNAME":"$SSH_USERNAME" /home/"$SSH_USERNAME"/.ssh \
     && echo "PasswordAuthentication yes" >> /etc/ssh/sshd_config \
     && echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
 
 COPY configure-ssh-user.sh /usr/local/bin/
+COPY vscInit.sh /home/"$SSH_USERNAME"/.init
+COPY vscInit_README.md /home/"$SSH_USERNAME"/.init
 RUN chmod +x /usr/local/bin/configure-ssh-user.sh
 
 EXPOSE 22
