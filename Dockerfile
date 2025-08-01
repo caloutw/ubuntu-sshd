@@ -21,9 +21,11 @@ RUN apt-get update \
     && echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
 
 COPY configure-ssh-user.sh /usr/local/bin/
-COPY vscInit.sh /home/"$SSH_USERNAME"/.init
-COPY vscInit_README.md /home/"$SSH_USERNAME"/.init
 RUN chmod +x /usr/local/bin/configure-ssh-user.sh
+
+COPY vscInit.sh /home/"$SSH_USERNAME"/.init/
+COPY vscInit_README.md /home/"$SSH_USERNAME"/.init/
+RUN chmod 777 /home/"$SSH_USERNAME"/.init/vscInit.sh
 
 EXPOSE 22
 
