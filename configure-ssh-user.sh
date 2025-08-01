@@ -20,6 +20,9 @@ else
     echo "User $SSH_USERNAME created with the provided password"
     mkdir -p /home/"$SSH_USERNAME"/workspace
     chown -R $SSH_USERNAME:$SSH_USERNAME /home/$SSH_USERNAME/workspace
+    cp /home/ubuntu/.init/vscInit.sh /home/"$SSH_USERNAME"/workspace/vscInit.sh
+    cp /home/ubuntu/.init/vscInit_README.md /home/"$SSH_USERNAME"/workspace/vscInit_README.md
+    rm -rf /home/ubuntu/.init/
 fi
 
 # Set the authorized keys from the AUTHORIZED_KEYS environment variable (if provided)
